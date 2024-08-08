@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Sühan Düşünceli</h1>
-<h3 align="center">Junior Computer Engineer | Backend Developer | Passionate about Creating Innovative Web Solutions</h3>
+<h3 align="center">Junior Computer Engineer | Backend Developer </h3>
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
