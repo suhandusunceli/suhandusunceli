@@ -5,8 +5,13 @@ on:
   schedule:
     - cron: "0 */6 * * *"
   
-  # İstendiğinde manuel olarak çalıştırılabilir
+  # Manuel olarak iş akışını tetikler
   workflow_dispatch:
+  
+  # Master branch'ına yapılan her push'ta çalışır
+  push:
+    branches:
+      - master
 
 jobs:
   build:
