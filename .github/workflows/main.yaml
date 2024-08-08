@@ -1,48 +1,38 @@
-name: Generate Snake
+name: generate animation
 
 on:
-  # Her 6 saatte bir otomatik olarak çalışır
+  # Run automatically every 24 hours
   schedule:
-    - cron: "0 */6 * * *"
-  
-  # Manuel olarak iş akışını tetikler
+    - cron: "0 */24 * * *" 
+
+  # Allows to manually run the job at any time
   workflow_dispatch:
-  
-  # Master branch'ına yapılan her push'ta çalışır
+
+  # Run on every push to the master branch
   push:
     branches:
       - master
 
 jobs:
-  build:
-    # İş akışının çalışacağı runner tipi
+  generate:
+    permissions: 
+      contents: write
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
-      # Depoyu checkout yapar
-      - uses: actions/checkout@v2
-
-      # Yılan görselleştirmesini oluşturur
-      - uses: Platane/snk@master
-        id: snake-gif
+      # Generate a snake game from the GitHub user contributions graph and output an SVG animation
+      - name: Generate github-contribution-grid-snake.svg
+        uses: Platane/snk/svg-only@v3
         with:
           github_user_name: suhandusunceli
-          gif_out_path: dist/github-contribution-grid-snake.gif
-          svg_out_path: dist/github-contribution-grid-snake.svg
+          outputs: |
+            dist/github-contribution-grid-snake.svg
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      # Git durumunu kontrol eder (isteğe bağlı)
-      - run: git status
-
-      # Değişiklikleri output branch'ına gönderir
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: output
-          force: true
-
-      # GitHub Pages'e dağıtır
-      - uses: crazy-max/ghaction-github-pages@v2.1.3
+      # Push the content of <build_dir> to a branch
+      - name: Push github-contribution-grid-snake.svg to the output branch
+        uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
           build_dir: dist
